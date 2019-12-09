@@ -1,0 +1,1 @@
+This is laboratory work 1 on C progaramming language.

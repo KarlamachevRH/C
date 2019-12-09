@@ -1,0 +1,275 @@
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:01 /sbin/init splash
+    2 ?        S      0:00 [kthreadd]
+    4 ?        I<     0:00 [kworker/0:0H]
+    6 ?        I<     0:00 [mm_percpu_wq]
+    7 ?        S      0:00 [ksoftirqd/0]
+    8 ?        I      0:00 [rcu_sched]
+    9 ?        I      0:00 [rcu_bh]
+   10 ?        S      0:00 [migration/0]
+   11 ?        S      0:00 [watchdog/0]
+   12 ?        S      0:00 [cpuhp/0]
+   13 ?        S      0:00 [cpuhp/1]
+   14 ?        S      0:00 [watchdog/1]
+   15 ?        S      0:00 [migration/1]
+   16 ?        S      0:00 [ksoftirqd/1]
+   19 ?        S      0:00 [cpuhp/2]
+   20 ?        S      0:00 [watchdog/2]
+   21 ?        S      0:00 [migration/2]
+   22 ?        S      0:00 [ksoftirqd/2]
+   23 ?        I      0:00 [kworker/2:0]
+   24 ?        I<     0:00 [kworker/2:0H]
+   25 ?        S      0:00 [cpuhp/3]
+   26 ?        S      0:00 [watchdog/3]
+   27 ?        S      0:00 [migration/3]
+   28 ?        S      0:00 [ksoftirqd/3]
+   30 ?        I<     0:00 [kworker/3:0H]
+   31 ?        S      0:00 [cpuhp/4]
+   32 ?        S      0:00 [watchdog/4]
+   33 ?        S      0:00 [migration/4]
+   34 ?        S      0:00 [ksoftirqd/4]
+   36 ?        I<     0:00 [kworker/4:0H]
+   37 ?        S      0:00 [cpuhp/5]
+   38 ?        S      0:00 [watchdog/5]
+   39 ?        S      0:00 [migration/5]
+   40 ?        S      0:00 [ksoftirqd/5]
+   43 ?        S      0:00 [cpuhp/6]
+   44 ?        S      0:00 [watchdog/6]
+   45 ?        S      0:00 [migration/6]
+   46 ?        S      0:00 [ksoftirqd/6]
+   49 ?        S      0:00 [cpuhp/7]
+   50 ?        S      0:00 [watchdog/7]
+   51 ?        S      0:00 [migration/7]
+   52 ?        S      0:00 [ksoftirqd/7]
+   55 ?        S      0:00 [kdevtmpfs]
+   56 ?        I<     0:00 [netns]
+   57 ?        S      0:00 [rcu_tasks_kthre]
+   58 ?        S      0:00 [kauditd]
+   59 ?        I      0:00 [kworker/0:1]
+   60 ?        I      0:00 [kworker/1:1]
+   61 ?        S      0:00 [khungtaskd]
+   62 ?        S      0:00 [oom_reaper]
+   63 ?        I<     0:00 [writeback]
+   64 ?        S      0:00 [kcompactd0]
+   65 ?        SN     0:00 [ksmd]
+   66 ?        SN     0:00 [khugepaged]
+   67 ?        I<     0:00 [crypto]
+   68 ?        I<     0:00 [kintegrityd]
+   69 ?        I<     0:00 [kblockd]
+   70 ?        I      0:00 [kworker/3:1]
+   71 ?        I      0:00 [kworker/4:1]
+   72 ?        I      0:00 [kworker/5:1]
+   73 ?        I      0:00 [kworker/6:1]
+   74 ?        I      0:00 [kworker/7:1]
+   76 ?        I<     0:00 [ata_sff]
+   77 ?        I<     0:00 [md]
+   78 ?        I<     0:00 [edac-poller]
+   79 ?        I<     0:00 [devfreq_wq]
+   80 ?        I<     0:00 [watchdogd]
+   83 ?        S      0:00 [kswapd0]
+   84 ?        S      0:00 [ecryptfs-kthrea]
+  126 ?        I<     0:00 [kthrotld]
+  127 ?        I<     0:00 [acpi_thermal_pm]
+  131 ?        I<     0:00 [ipv6_addrconf]
+  140 ?        I<     0:00 [kstrp]
+  157 ?        I<     0:00 [charger_manager]
+  158 ?        I      0:00 [kworker/u16:2]
+  160 ?        I      0:00 [kworker/5:2]
+  216 ?        I<     0:00 [ttm_swap]
+  217 ?        S      0:00 [scsi_eh_0]
+  218 ?        I<     0:00 [scsi_tmf_0]
+  219 ?        S      0:00 [scsi_eh_1]
+  220 ?        I<     0:00 [scsi_tmf_1]
+  221 ?        S      0:00 [scsi_eh_2]
+  222 ?        I<     0:00 [scsi_tmf_2]
+  223 ?        S      0:00 [scsi_eh_3]
+  224 ?        I<     0:00 [scsi_tmf_3]
+  225 ?        S      0:00 [scsi_eh_4]
+  226 ?        I<     0:00 [scsi_tmf_4]
+  227 ?        S      0:00 [scsi_eh_5]
+  228 ?        I<     0:00 [scsi_tmf_5]
+  231 ?        I      0:00 [kworker/u16:5]
+  233 ?        I<     0:00 [kworker/u17:0]
+  234 ?        S      0:00 [i915/signal:0]
+  235 ?        S      0:00 [i915/signal:1]
+  236 ?        S      0:00 [i915/signal:2]
+  237 ?        S      0:00 [i915/signal:4]
+  259 ?        I<     0:00 [kworker/3:1H]
+  282 ?        S      0:00 [jbd2/sdb5-8]
+  283 ?        I<     0:00 [ext4-rsv-conver]
+  317 ?        Ss     0:00 /lib/systemd/systemd-journald
+  320 ?        I<     0:00 [kworker/1:1H]
+  322 ?        I      0:00 [kworker/4:2]
+  324 ?        I<     0:00 [kworker/2:1H]
+  326 ?        I<     0:00 [kworker/4:1H]
+  327 ?        I<     0:00 [kworker/6:1H]
+  328 ?        I<     0:00 [kworker/5:1H]
+  337 ?        I      0:00 [kworker/0:2]
+  345 ?        Ss     0:00 /lib/systemd/systemd-udevd
+  368 ?        I<     0:00 [kworker/7:1H]
+  371 ?        I<     0:00 [kworker/0:1H]
+  389 ?        I      0:00 [kworker/1:2]
+  416 ?        I      0:00 [kworker/6:2]
+  439 ?        S<     0:00 [loop0]
+  440 ?        S<     0:00 [loop1]
+  441 ?        S<     0:00 [loop2]
+  442 ?        S<     0:00 [loop3]
+  443 ?        S<     0:00 [loop4]
+  444 ?        S<     0:00 [loop5]
+  445 ?        S<     0:00 [loop6]
+  468 ?        S      0:00 [irq/35-mei_me]
+  838 ?        S      0:00 [jbd2/sdb7-8]
+  839 ?        I<     0:00 [ext4-rsv-conver]
+  858 ?        Ssl    0:00 /lib/systemd/systemd-timesyncd
+  973 ?        I      0:00 [kworker/7:2]
+ 1033 ?        Ss     0:00 /lib/systemd/systemd-logind
+ 1035 ?        Ss     0:00 /usr/sbin/atd -f
+ 1036 ?        Ss     0:00 avahi-daemon: running [rinat-H97-HD3.local]
+ 1037 ?        Ssl    0:00 /usr/lib/accountsservice/accounts-daemon
+ 1039 ?        Ss     0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+ 1047 ?        S      0:00 avahi-daemon: chroot helper
+ 1071 ?        Ssl    0:00 /usr/sbin/thermald --no-daemon --dbus-enable
+ 1076 ?        Ss     0:00 /sbin/cgmanager -m name=systemd
+ 1085 ?        Ss     0:00 /usr/sbin/acpid
+ 1086 ?        Ssl    0:00 /usr/sbin/NetworkManager --no-daemon
+ 1089 ?        Ss     0:00 /usr/sbin/cron -f
+ 1090 ?        Ssl    0:07 /usr/lib/snapd/snapd
+ 1091 ?        Ssl    0:00 /usr/sbin/rsyslogd -n
+ 1093 ?        Ss     0:00 /usr/sbin/cupsd -l
+ 1094 ?        Ssl    0:00 /usr/sbin/cups-browsed
+ 1132 ?        Ss     0:00 /usr/sbin/irqbalance --pid=/var/run/irqbalance.pid
+ 1192 ?        Ssl    0:00 /usr/lib/policykit-1/polkitd --no-debug
+ 1206 ?        Ssl    0:00 /usr/sbin/libvirtd
+ 1208 ?        S      0:00 /usr/lib/cups/notifier/dbus dbus://
+ 1209 ?        S      0:00 /usr/lib/cups/notifier/dbus dbus://
+ 1229 ?        SLsl   0:00 /usr/sbin/lightdm
+ 1257 tty7     Ssl+   0:13 /usr/lib/xorg/Xorg -core :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+ 1388 ?        S      0:00 /sbin/dhclient -d -q -sf /usr/lib/NetworkManager/nm-dhcp-helper -pf /var/run/dhclient-enp3s0.pid -lf /var/lib/NetworkManager/dhclient-9f3c7eae-debe-3c2d-bec4-b24cfb178c01-enp3s0.lease -cf /var/lib/NetworkManager/dhclient-enp3s0.conf enp3s0
+ 1430 ?        Sl     0:00 lightdm --session-child 12 19
+ 1442 ?        S      0:00 /usr/sbin/dnsmasq --no-resolv --keep-in-foreground --no-hosts --bind-interfaces --pid-file=/var/run/NetworkManager/dnsmasq.pid --listen-address=127.0.1.1 --cache-size=0 --conf-file=/dev/null --proxy-dnssec --enable-dbus=org.freedesktop.NetworkManager.dnsmasq --conf-dir=/etc/NetworkManager/dnsmasq.d
+ 1577 ?        Ssl    0:00 /usr/lib/upower/upowerd
+ 1683 ?        Ssl    0:00 /usr/lib/colord/colord
+ 1685 ?        SNsl   0:00 /usr/lib/rtkit/rtkit-daemon
+ 1734 ?        Ssl    0:00 /usr/bin/whoopsie -f
+ 1740 tty1     Ss+    0:00 /sbin/agetty --noclear tty1 linux
+ 1865 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_leaseshelper
+ 1866 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/lib/libvirt/libvirt_leaseshelper
+ 1904 ?        Ss     0:00 /lib/systemd/systemd --user
+ 1905 ?        S      0:00 (sd-pam)
+ 1944 ?        Sl     0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+ 1946 ?        Ss     0:00 /sbin/upstart --user
+ 2038 ?        Ss     0:00 dbus-daemon --fork --session --address=unix:abstract=/tmp/dbus-hqjdooYRjv
+ 2042 ?        S      0:00 upstart-udev-bridge --daemon --user
+ 2052 ?        Ss     0:00 /usr/lib/x86_64-linux-gnu/hud/window-stack-bridge
+ 2074 ?        S      0:00 upstart-dbus-bridge --daemon --session --user --bus-name session
+ 2075 ?        S      0:00 upstart-dbus-bridge --daemon --system --user --bus-name system
+ 2084 ?        S      0:00 upstart-file-bridge --daemon --user
+ 2085 ?        Ssl    0:01 /usr/bin/ibus-daemon --daemonize --xim --address unix:tmpdir=/tmp/ibus
+ 2106 ?        Sl     0:00 /usr/lib/gvfs/gvfsd
+ 2111 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-fuse /run/user/1000/gvfs -f -o big_writes
+ 2120 ?        Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 2121 ?        Sl     0:00 /usr/lib/ibus/ibus-ui-gtk3
+ 2125 ?        Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 2136 ?        Sl     0:00 /usr/lib/at-spi2-core/at-spi-bus-launcher
+ 2141 ?        S      0:00 /usr/bin/dbus-daemon --config-file=/etc/at-spi2/accessibility.conf --nofork --print-address 3
+ 2144 ?        Sl     0:00 /usr/lib/at-spi2-core/at-spi2-registryd --use-gnome-session
+ 2147 ?        Sl     0:00 /usr/lib/ibus/ibus-engine-simple
+ 2154 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/bamf/bamfdaemon
+ 2161 ?        Ss     0:00 gpg-agent --homedir /home/rinat/.gnupg --use-standard-socket --daemon
+ 2171 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/hud/hud-service
+ 2173 ?        Ssl    0:00 /usr/lib/unity-settings-daemon/unity-settings-daemon
+ 2187 ?        Ssl    0:00 /usr/lib/gnome-session/gnome-session-binary --session=ubuntu
+ 2194 ?        Ssl    0:01 /usr/lib/x86_64-linux-gnu/unity/unity-panel-service
+ 2221 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-messages/indicator-messages-service
+ 2222 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-bluetooth/indicator-bluetooth-service
+ 2224 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-power/indicator-power-service
+ 2228 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-datetime/indicator-datetime-service
+ 2231 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-keyboard/indicator-keyboard-service --use-gtk
+ 2234 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-sound/indicator-sound-service
+ 2235 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-printers/indicator-printers-service
+ 2236 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-session/indicator-session-service
+ 2276 ?        S<l    1:31 /usr/bin/pulseaudio --start --log-target=syslog
+ 2278 ?        Sl     0:00 /usr/lib/evolution/evolution-source-registry
+ 2288 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/indicator-application/indicator-application-service
+ 2313 ?        Sl     0:00 /usr/lib/dconf/dconf-service
+ 2330 ?        Sl     0:00 /usr/lib/evolution/evolution-calendar-factory
+ 2347 ?        Sl     0:00 /usr/lib/unity-settings-daemon/unity-fallback-mount-helper
+ 2368 ?        SLl    0:00 /usr/bin/gnome-software --gapplication-service
+ 2373 ?        Sl     0:00 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+ 2382 ?        Sl     0:00 nm-applet
+ 2383 ?        Sl     0:00 nautilus -n
+ 2394 ?        Sl     0:00 /usr/lib/gvfs/gvfs-udisks2-volume-monitor
+ 2395 ?        Ssl    0:13 compiz
+ 2401 ?        Ssl    0:00 /usr/lib/x86_64-linux-gnu/fwupd/fwupd
+ 2409 ?        Sl     0:00 /usr/lib/evolution/evolution-calendar-factory-subprocess --factory contacts --bus-name org.gnome.evolution.dataserver.Subprocess.Backend.Calendarx2330x2 --own-path /org/gnome/evolution/dataserver/Subprocess/Backend/Calendar/2330/2
+ 2410 ?        Ssl    0:00 /usr/lib/udisks2/udisksd --no-debug
+ 2428 ?        Sl     0:00 /usr/lib/evolution/evolution-addressbook-factory
+ 2430 ?        Sl     0:00 /usr/lib/evolution/evolution-calendar-factory-subprocess --factory local --bus-name org.gnome.evolution.dataserver.Subprocess.Backend.Calendarx2330x3 --own-path /org/gnome/evolution/dataserver/Subprocess/Backend/Calendar/2330/3
+ 2446 ?        Sl     0:00 /usr/lib/gvfs/gvfs-gphoto2-volume-monitor
+ 2456 ?        Sl     0:00 /usr/lib/gvfs/gvfs-afc-volume-monitor
+ 2462 ?        Sl     0:00 /usr/lib/evolution/evolution-addressbook-factory-subprocess --factory local --bus-name org.gnome.evolution.dataserver.Subprocess.Backend.AddressBookx2428x2 --own-path /org/gnome/evolution/dataserver/Subprocess/Backend/AddressBook/2428/2
+ 2468 ?        Sl     0:00 /usr/lib/gvfs/gvfs-goa-volume-monitor
+ 2473 ?        Sl     0:00 /usr/lib/gvfs/gvfs-mtp-volume-monitor
+ 2519 ?        Ss     0:00 /sbin/mount.ntfs /dev/sdc2 /media/rinat/HDD1 -o rw,nodev,nosuid,uid=1000,gid=1000,uhelper=udisks2
+ 2526 ?        Ss     0:00 /sbin/mount.ntfs /dev/sdc3 /media/rinat/HDD2 -o rw,nodev,nosuid,uid=1000,gid=1000,uhelper=udisks2
+ 2531 ?        Ss     0:00 /sbin/mount.ntfs /dev/sdc4 /media/rinat/HDD3 -o rw,nodev,nosuid,uid=1000,gid=1000,uhelper=udisks2
+ 2541 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.4 /org/gtk/gvfs/exec_spaw/0
+ 2561 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-metadata
+ 2590 ?        Sl     0:18 /snap/atom/202/usr/share/atom/atom --executed-from=/home/rinat --pid=2575
+ 2593 ?        S      0:00 /snap/atom/202/usr/share/atom/atom --type=zygote --no-sandbox
+ 2601 ?        S      0:00 /usr/lib/x86_64-linux-gnu/gconf/gconfd-2
+ 2631 ?        Sl     0:14 /snap/atom/202/usr/share/atom/atom --type=renderer --enable-experimental-web-platform-features --no-sandbox --service-pipe-token=DE96AB59344997C6D54C8C3C4C4B35FA --lang=ru --app-path=/snap/atom/202/usr/share/atom/resources/app.asar --node-integration=true --webview-tag=true --no-sandbox --disable-blink-features=Auxclick --context-id=2 --enable-pinch --num-raster-threads=4 --enable-main-frame-before-activation --content-image-texture-target=0,0,3553;0,1,3553;0,2,3553;0,3,3553;0,4,3553;0,5,3553;0,6,3553;0,7,3553;0,8,3553;0,9,3553;0,10,3553;0,11,3553;0,12,3553;0,13,3553;0,14,3553;0,15,3553;0,16,3553;0,17,3553;1,0,3553;1,1,3553;1,2,3553;1,3,3553;1,4,3553;1,5,3553;1,6,3553;1,7,3553;1,8,3553;1,9,3553;1,10,3553;1,11,3553;1,12,3553;1,13,3553;1,14,3553;1,15,3553;1,16,3553;1,17,3553;2,0,3553;2,1,3553;2,2,3553;2,3,3553;2,4,3553;2,5,3553;2,6,3553;2,7,3553;2,8,3553;2,9,3553;2,10,3553;2,11,3553;2,12,3553;2,13,3553;2,14,3553;2,15,3553;2,16,3553;2,17,3553;3,0,3553;3,1,3553;3,2,3553;3,3,3553;3,4,3553;3,5,3553;3,6,3553;3,7,3553;3,8,3553;3,9,3553;3,10,3553;3,11,3553;3,12,3553;3,13,3553;3,14,3553;3,15,3553;3,16,3553;3,17,3553;4,0,3553;4,1,3553;4,2,3553;4,3,3553;4,4,3553;4,5,3553;4,6,3553;4,7,3553;4,8,3553;4,9,3553;4,10,3553;4,11,3553;4,12,3553;4,13,3553;4,14,3553;4,15,3553;4,16,3553;4,17,3553 --disable-accelerated-video-decode --disable-gpu-compositing --enable-gpu-async-worker-context --service-request-channel-token=DE96AB59344997C6D54C8C3C4C4B35FA --renderer-client-id=3 --shared-files=v8_natives_data:100,v8_snapshot_data:101
+ 2653 ?        S      0:00 /bin/sh -c /usr/lib/x86_64-linux-gnu/zeitgeist/zeitgeist-maybe-vacuum; /usr/bin/zeitgeist-daemon
+ 2657 ?        Sl     0:00 /usr/bin/zeitgeist-daemon
+ 2665 ?        Sl     0:00 /usr/lib/x86_64-linux-gnu/zeitgeist-fts
+ 2667 ?        Sl     0:00 zeitgeist-datahub
+ 2775 ?        Sl     0:00 /snap/atom/202/usr/share/atom/atom --type=renderer --enable-experimental-web-platform-features --no-sandbox --service-pipe-token=98FD3B1BA72A43A0E9CEA00EEB6C4DEB --lang=ru --app-path=/snap/atom/202/usr/share/atom/resources/app.asar --node-integration=true --webview-tag=true --no-sandbox --context-id=2 --enable-pinch --num-raster-threads=4 --enable-main-frame-before-activation --content-image-texture-target=0,0,3553;0,1,3553;0,2,3553;0,3,3553;0,4,3553;0,5,3553;0,6,3553;0,7,3553;0,8,3553;0,9,3553;0,10,3553;0,11,3553;0,12,3553;0,13,3553;0,14,3553;0,15,3553;0,16,3553;0,17,3553;1,0,3553;1,1,3553;1,2,3553;1,3,3553;1,4,3553;1,5,3553;1,6,3553;1,7,3553;1,8,3553;1,9,3553;1,10,3553;1,11,3553;1,12,3553;1,13,3553;1,14,3553;1,15,3553;1,16,3553;1,17,3553;2,0,3553;2,1,3553;2,2,3553;2,3,3553;2,4,3553;2,5,3553;2,6,3553;2,7,3553;2,8,3553;2,9,3553;2,10,3553;2,11,3553;2,12,3553;2,13,3553;2,14,3553;2,15,3553;2,16,3553;2,17,3553;3,0,3553;3,1,3553;3,2,3553;3,3,3553;3,4,3553;3,5,3553;3,6,3553;3,7,3553;3,8,3553;3,9,3553;3,10,3553;3,11,3553;3,12,3553;3,13,3553;3,14,3553;3,15,3553;3,16,3553;3,17,3553;4,0,3553;4,1,3553;4,2,3553;4,3,3553;4,4,3553;4,5,3553;4,6,3553;4,7,3553;4,8,3553;4,9,3553;4,10,3553;4,11,3553;4,12,3553;4,13,3553;4,14,3553;4,15,3553;4,16,3553;4,17,3553 --disable-accelerated-video-decode --disable-gpu-compositing --enable-gpu-async-worker-context --service-request-channel-token=98FD3B1BA72A43A0E9CEA00EEB6C4DEB --renderer-client-id=5 --shared-files=v8_natives_data:100,v8_snapshot_data:101
+ 2793 ?        I<     0:00 [kworker/1:2H]
+ 2816 ?        Sl     0:03 /usr/lib/gnome-terminal/gnome-terminal-server
+ 2823 pts/17   Ss     0:00 bash
+ 2879 ?        Sl     0:12 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --password-store=basic
+ 2891 ?        Sl     0:00 update-notifier
+ 2898 ?        Sl     0:17 /usr/lib/firefox/firefox
+ 3049 ?        S      0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=zygote --enable-proprietary-media-types-playback
+ 3062 ?        S      0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=zygote --enable-proprietary-media-types-playback
+ 3089 ?        Sl     0:02 /usr/lib/firefox/firefox -contentproc -childID 1 -isForBrowser -prefsLen 8941 -schedulerPrefs 0001,2 -parentBuildID 20181002205202 -greomni /usr/lib/firefox/omni.ja -appomni /usr/lib/firefox/browser/omni.ja -appdir /usr/lib/firefox/browser 2898 true tab
+ 3132 ?        Rl     0:46 /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 8941 -schedulerPrefs 0001,2 -parentBuildID 20181002205202 -greomni /usr/lib/firefox/omni.ja -appomni /usr/lib/firefox/browser/omni.ja -appdir /usr/lib/firefox/browser 2898 true tab
+ 3209 ?        Sl     0:02 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=gpu-process --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --enable-proprietary-media-types-playback --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --gpu-preferences=KAAAAAAAAACAAABAAQAAAAAAAAAAAGAAAAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --enable-proprietary-media-types-playback --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --service-request-channel-token=5613535080422808320
+ 3266 ?        Sl     0:00 /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 12558 -schedulerPrefs 0001,2 -parentBuildID 20181002205202 -greomni /usr/lib/firefox/omni.ja -appomni /usr/lib/firefox/browser/omni.ja -appdir /usr/lib/firefox/browser 2898 true tab
+ 3286 ?        Sl     0:00 /usr/lib/firefox/firefox -contentproc -childID 4 -isForBrowser -prefsLen 12558 -schedulerPrefs 0001,2 -parentBuildID 20181002205202 -greomni /usr/lib/firefox/omni.ja -appomni /usr/lib/firefox/browser/omni.ja -appdir /usr/lib/firefox/browser 2898 true tab
+ 3294 ?        Sl     0:00 /usr/bin/snap userd
+ 3431 ?        Sl     0:00 /usr/lib/x86_64-linux-gnu/notify-osd
+ 3453 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=5206470969113861167 --lang=ru --enable-proprietary-media-types-playback --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=5206470969113861167 --renderer-client-id=3 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3459 ?        I<     0:00 [kworker/6:2H]
+ 3652 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=4625026076402523216 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=4625026076402523216 --renderer-client-id=8 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3659 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=3250645829808714427 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=3250645829808714427 --renderer-client-id=19 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3910 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=7898391599605860676 --lang=ru --enable-proprietary-media-types-playback --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7898391599605860676 --renderer-client-id=4 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3918 ?        I<     0:00 [kworker/5:2H]
+ 3920 ?        Sl     0:07 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=14884666212288860257 --lang=ru --enable-proprietary-media-types-playback --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=14884666212288860257 --renderer-client-id=5 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3927 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=9724524850489694493 --lang=ru --enable-proprietary-media-types-playback --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9724524850489694493 --renderer-client-id=20 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 3972 ?        I<     0:00 [kworker/7:2H]
+ 4076 ?        Sl     0:08 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=16381406992903877951 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=16381406992903877951 --renderer-client-id=15 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4107 ?        Sl     0:01 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=3336163320335676533 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=3336163320335676533 --renderer-client-id=16 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4125 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=4198160815911511835 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=4198160815911511835 --renderer-client-id=14 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4147 ?        Sl     0:02 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=8285497653519939539 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=8285497653519939539 --renderer-client-id=11 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4178 ?        Sl     0:02 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=1981790884971988097 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=1981790884971988097 --renderer-client-id=10 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4197 ?        Sl     0:00 /usr/lib/speech-dispatcher-modules/sd_espeak /etc/speech-dispatcher/modules/espeak.conf
+ 4204 ?        Sl     0:00 /usr/lib/speech-dispatcher-modules/sd_dummy /etc/speech-dispatcher/modules/dummy.conf
+ 4207 ?        Sl     0:00 /usr/lib/speech-dispatcher-modules/sd_cicero /etc/speech-dispatcher/modules/cicero.conf
+ 4208 ?        Z      0:00 [sd_cicero] <defunct>
+ 4211 ?        Sl     0:00 /usr/lib/speech-dispatcher-modules/sd_generic /etc/speech-dispatcher/modules/generic.conf
+ 4214 ?        Ssl    0:00 /usr/bin/speech-dispatcher --spawn --communication-method unix_socket --socket-path /run/user/1000/speech-dispatcher/speechd.sock
+ 4220 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=15956973444659786715 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=15956973444659786715 --renderer-client-id=7 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4238 ?        Sl     0:01 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=3188781853633695227 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=3188781853633695227 --renderer-client-id=6 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4251 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=16675431234557800483 --lang=ru --enable-proprietary-media-types-playback --extension-process --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=16675431234557800483 --renderer-client-id=21 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4270 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=ppapi --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --ppapi-flash-args --lang=ru --enable-proprietary-media-types-playback --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --service-request-channel-token=17592086681904326834
+ 4280 ?        Sl     0:02 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=9095823788367523797 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9095823788367523797 --renderer-client-id=9 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4305 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=11214718349459991778 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=11214718349459991778 --renderer-client-id=12 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4320 ?        Sl     0:00 /snap/opera/11/usr/lib/x86_64-linux-gnu/opera/opera --type=renderer --field-trial-handle=8901006693136998096,12626706042101585114,131072 --disable-features=SharedArrayBuffer --service-pipe-token=4479263533556471294 --lang=ru --enable-proprietary-media-types-playback --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --ab_tests=booking.com appender enabled:Add bookingCom speeddial,DNA-70598-test:DNA-70598 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=4479263533556471294 --renderer-client-id=13 --shared-files=v8_context_snapshot_data:100,v8_natives_data:101
+ 4337 ?        Sl     0:00 /usr/lib/x86_64-linux-gnu/deja-dup/deja-dup-monitor
+ 4528 ?        I      0:00 [kworker/3:2]
+ 4529 ?        I      0:00 [kworker/2:2]
+ 4544 ?        I      0:00 [kworker/u16:0]
+ 4599 ?        I      0:00 [kworker/u16:1]
+ 4607 ?        I      0:00 [kworker/4:0]
+ 4613 pts/17   R+     0:00 ps ax
