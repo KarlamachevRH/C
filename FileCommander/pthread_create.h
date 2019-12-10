@@ -29,9 +29,8 @@ struct progressBarData
 };
 
 unsigned long long calculate_size(char *path);
-void copy_recursive(char *pathFrom, char *pathTo);
-void* copy_directory_thread(void *data);
-void* copy_file_thread(void *data);
+void copy(char *pathFrom, char *pathTo);
+void* copy_thread(void *data);
 void* progress_bar(void *data);
 int create_threads(char *pathFrom, char *pathTo, cursed_window **windows);
 

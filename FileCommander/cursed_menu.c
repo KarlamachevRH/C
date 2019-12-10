@@ -72,3 +72,32 @@ MENU *tui_make_menu (cursed_window *win,  ITEM **myItems, direntry **nameList, i
     post_menu(menu);
     return menu;
 }
+
+MENU* make_menu(cursed_window **windows, int winNum, MENU *myMenu, direntry **namelist, ITEM **myItems, char *path, int *namesCounter)
+{    
+    namelist = open_directory(namelist, path, namesCounter);
+    if((myItems = (ITEM **)calloc(*namesCounter, sizeof(ITEM *))) == NULL)
+        exit(EXIT_FAILURE);
+            
+    myMenu = tui_make_menu (windows[winNum], myItems, namelist, *namesCounter, path);
+    update_cursed_panel(windows, BACKGROUND_PANEL);
+    return myMenu;
+}
+
+void keypad_on(cursed_window **windows)
+{
+    keypad(windows[LEFT_PANEL]->overlay, TRUE);
+    keypad(windows[RIGHT_PANEL]->overlay, TRUE);
+}
+
+void free_panel_menu(MENU *myMenu, direntry **namelist, ITEM **myItems, int *namesCounter)
+{
+    if(myMenu != NULL)
+    {
+        unpost_menu(myMenu);
+        free_menu(myMenu);
+        free_items(myItems, *namesCounter);
+        free_mem(namelist, *namesCounter);
+        *namesCounter = 0;
+    }
+}

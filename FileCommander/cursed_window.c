@@ -167,6 +167,12 @@ cursed_window* create_service_window(cursed_window **windows, cursed_window *win
     return win;  
 }
 
+void refresh_main_windows(cursed_window **windows)
+{
+    tui_del_windows(windows);
+    create_windows(windows);
+}
+
 void tui_progress_bar(WINDOW *win, double progress)
 {
     int  height, width;

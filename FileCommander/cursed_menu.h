@@ -28,4 +28,10 @@ direntry** open_directory(direntry **nameList, char *path, int *namesCounter);
 
 MENU *tui_make_menu (cursed_window *win,  ITEM **myItems, direntry **nameList, int namesCounter, char *path);
 
+MENU* make_menu(cursed_window **windows, int winNum, MENU *myMenu, direntry **namelist, ITEM **myItems, char *path, int *namesCounter);
+
+void keypad_on(cursed_window **windows);
+
+void free_panel_menu(MENU *myMenu, direntry **namelist, ITEM **myItems, int *namesCounter);
+
 #endif // __CURSED_MENU_H__

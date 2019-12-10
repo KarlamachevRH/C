@@ -46,6 +46,9 @@ void tui_progress_bar(WINDOW *win, double progress);
 /* Создание всех окон программы */
 void create_windows(cursed_window **windows);
 
+/* Refresh main windows after creating service window */
+void refresh_main_windows(cursed_window **windows);
+
 /* Служебное окно для отображения информации */
 cursed_window* create_service_window(cursed_window **windows, cursed_window *win);
 

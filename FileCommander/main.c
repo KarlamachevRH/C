@@ -17,40 +17,29 @@ int main(int argc, char ** argv)
     struct stat filestat;
     MENU *myMenuLeft = NULL;
     MENU *myMenuRight = NULL;
+    ITEM **myItemsLeft = NULL;
+    ITEM **myItemsRight = NULL;
     char pathFrom[PATH_MAX] = {0};
     char pathTo[PATH_MAX] = {0};
 
-    strncpy(pathLeft, get_first_run_path(), PATH_MAX);    
+    strncpy(pathLeft, get_first_run_path(), PATH_MAX);
     strncpy(pathRight, get_first_run_path(), PATH_MAX);
-    namelistRight = open_directory(namelistRight, pathRight, &namesCounterRight);
-
-    ITEM **myItemsLeft = NULL;
-    ITEM **myItemsRight = (ITEM **)calloc(namesCounterRight, sizeof(ITEM *));
-
-    myMenuRight = tui_make_menu(windows[RIGHT_PANEL], myItemsRight, namelistRight, namesCounterRight, pathRight);
-    update_cursed_panel(windows, BACKGROUND_PANEL);
     
+    myMenuRight = make_menu(windows, RIGHT_PANEL, myMenuRight, namelistRight, myItemsRight, pathRight, &namesCounterRight);
+
     int key = 0;
     int result;
     int changePanel = 0;
 
-    keypad(windows[LEFT_PANEL]->overlay, TRUE);
-    keypad(windows[RIGHT_PANEL]->overlay, TRUE);
+    keypad_on(windows);
         
     while(key != KEY_F(10))
     {
         if(!changePanel && key != KEY_F(10)) // left panel
         {
             key = 0;
-            namesCounterLeft = 0;
-            namelistLeft = open_directory(namelistLeft, pathLeft, &namesCounterLeft);
-            if((myItemsLeft = (ITEM **)calloc(namesCounterLeft, sizeof(ITEM *))) == NULL)
-                exit(EXIT_FAILURE);
-                    
-            myMenuLeft = tui_make_menu (windows[LEFT_PANEL], myItemsLeft, namelistLeft, namesCounterLeft, pathLeft);
-            update_cursed_panel(windows, BACKGROUND_PANEL);
-
-            while(key != KEY_F(10) && key != KEY_TAB && key != KEY_EENTER)
+            myMenuLeft = make_menu(windows, LEFT_PANEL, myMenuLeft, namelistLeft, myItemsLeft, pathLeft, &namesCounterLeft);
+            while(key != KEY_F(10) && key != KEY_TAB && key != KEY_EENTER && key != KEY_F(4))
             {
                 key = wgetch(windows[LEFT_PANEL]->overlay);
                 switch(key)
@@ -58,10 +47,10 @@ int main(int argc, char ** argv)
                     case KEY_UP:
                         menu_driver(myMenuLeft, REQ_UP_ITEM);
                         break;
-                    case KEY_DOWN: 
+                    case KEY_DOWN:
                         menu_driver(myMenuLeft, REQ_DOWN_ITEM);
                         break;
-                    case KEY_NPAGE: 
+                    case KEY_NPAGE:
                         menu_driver(myMenuLeft, REQ_SCR_DPAGE);
                         break;
                        case KEY_PPAGE:
@@ -69,7 +58,7 @@ int main(int argc, char ** argv)
                         break;
                     case KEY_TAB:
                         changePanel = 1;
-                        strncpy(resolved_path, pathRight, PATH_MAX); 
+                        strncpy(resolved_path, pathRight, PATH_MAX);
                         break;
                     case KEY_EENTER:
                         chdir(pathLeft);  // перемещаемся в указанную директорию
@@ -83,7 +72,7 @@ int main(int argc, char ** argv)
                                     fork_programm(myMenuLeft->curitem->name.str);
                         }
                         break;
-                    case KEY_F(4):
+                    case KEY_F(4): // key is F4, because this key number is not intercepts by my IDE (Visual Studio Code)
                         /* Пути для копирования файлов */
                         pathFrom[0] = 0;
                         pathTo[0] = 0;
@@ -93,10 +82,15 @@ int main(int argc, char ** argv)
                         strncat(pathTo, pathRight, PATH_MAX);
                         strncat(pathTo, "/", PATH_MAX);
                         strncat(pathTo, myMenuLeft->curitem->name.str, PATH_MAX);
-
                         /* Создадим потоки копирования и отображения прогресса копирования */
                         create_threads(pathFrom, pathTo, windows);
-                        //update_cursed_panel(windows, BACKGROUND_PANEL);                        
+                        sleep(1);
+                        /* Обновим окна */
+                        free_panel_menu(myMenuLeft, namelistLeft, myItemsLeft, &namesCounterLeft);
+                        free_panel_menu(myMenuRight, namelistRight, myItemsRight, &namesCounterRight);                        
+                        refresh_main_windows(windows);
+                        myMenuRight = make_menu(windows, RIGHT_PANEL, myMenuRight, namelistRight, myItemsRight, pathRight, &namesCounterRight);
+                        keypad_on(windows);
                         break;
                     default:
                         break;
@@ -106,21 +100,10 @@ int main(int argc, char ** argv)
         
         if(changePanel && key != KEY_F(10)) // right panel
         {
-            key = 0;
-            unpost_menu(myMenuRight);
-            free_menu(myMenuRight);
-            free_items(myItemsRight, namesCounterRight);
-            free_mem(namelistRight, namesCounterRight);
-            namesCounterRight = 0;
-
-            namelistRight = open_directory(namelistRight, pathRight, &namesCounterRight);
-            if(!(myItemsRight = (ITEM **)calloc(namesCounterRight, sizeof(ITEM *))))
-                exit(EXIT_FAILURE);
-
-            myMenuRight = tui_make_menu (windows[RIGHT_PANEL], myItemsRight, namelistRight, namesCounterRight, pathRight);
-            update_cursed_panel(windows, BACKGROUND_PANEL);
-
-            while(key != KEY_F(10) && key != KEY_TAB && key != KEY_EENTER)
+            key = 0;          
+            free_panel_menu(myMenuRight, namelistRight, myItemsRight, &namesCounterRight);
+            myMenuRight = make_menu(windows, RIGHT_PANEL, myMenuRight, namelistRight, myItemsRight, pathRight, &namesCounterRight);
+            while(key != KEY_F(10) && key != KEY_TAB && key != KEY_EENTER && key != KEY_F(4))
             {            
                 key = wgetch(windows[RIGHT_PANEL]->overlay);
                 switch(key)
@@ -161,24 +144,23 @@ int main(int argc, char ** argv)
                         strncat(pathFrom, myMenuRight->curitem->name.str, PATH_MAX);
                         strncat(pathTo, pathLeft, PATH_MAX);
                         strncat(pathTo, myMenuRight->curitem->name.str, PATH_MAX);
-
                         /* Создадим потоки копирования и отображения прогресса копирования */
                         create_threads(pathFrom, pathTo, windows);
-                        //update_cursed_panel(windows, BACKGROUND_PANEL);
+                        sleep(1);
+                        /* Обновим окна */
+                        free_panel_menu(myMenuRight, namelistRight, myItemsRight, &namesCounterRight);
+                        free_panel_menu(myMenuLeft, namelistLeft, myItemsLeft, &namesCounterLeft);
+                        refresh_main_windows(windows);
+                        myMenuLeft = make_menu(windows, LEFT_PANEL, myMenuLeft, namelistLeft, myItemsLeft, pathLeft, &namesCounterLeft);
+                        keypad_on(windows);
                         break;
                     default:
                         break;
                 }            
             }
         }
-        if(!changePanel) // unpost left panel menu here because we need it before update left panel
-        {   
-            unpost_menu(myMenuLeft);
-            free_menu(myMenuLeft);
-            free_items(myItemsLeft, namesCounterLeft);
-            free_mem(namelistLeft, namesCounterLeft);
-            namesCounterLeft = 0;
-        }
+        if(!changePanel) // unpost left panel menu here because we need it before update left panel                       
+            free_panel_menu(myMenuLeft, namelistLeft, myItemsLeft, &namesCounterLeft);        
     }
     tui_del_windows(windows);
     return EXIT_SUCCESS;

@@ -102,7 +102,7 @@ void copy_file(char *file_in, char *file_out)
     close(fout);
 }
 
-void copy_recursive(char *pathFrom, char *pathTo)
+void copy(char *pathFrom, char *pathTo)
 {
     int result;
     struct stat filestat;
@@ -110,34 +110,33 @@ void copy_recursive(char *pathFrom, char *pathTo)
     char file_in[PATH_MAX] = {0}, file_out[PATH_MAX] = {0};
     char tempBufIn[PATH_MAX] = {0};
     char tempBufOut[PATH_MAX] = {0};
-
     DIR *d = NULL;
-    d = opendir(pathFrom);
-    if(d == NULL)
-    {
-        perror("copy_recursive: opendir");
-        pthread_exit((void*)&errno);
-    }
-    strncpy(file_in, pathFrom, PATH_MAX);
-    strncat(file_in, "/", PATH_MAX);
-    strncpy(file_out, pathTo, PATH_MAX);
-    strncat(file_out, "/", PATH_MAX);
 
-    /* Create directory in directory to copy */                        
-    if(mkdir(file_out, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0)
-    {
-        perror("Creating directory");
-        pthread_exit((void*)&errno);
-    }
-    
-    strncpy(tempBufIn, file_in, PATH_MAX);
-    strncpy(tempBufOut, file_out, PATH_MAX);
-
-    while((fname = readdir(d)))
-    {
-        if (!strcmp(fname->d_name, ".") || !strcmp(fname->d_name, ".."))
-            continue;
-        else
+    result = lstat(pathFrom, &filestat);    
+    if(S_ISDIR(filestat.st_mode))
+    {        
+        if((d = opendir(pathFrom)) == NULL)
+        {
+            perror("copy: opendir");
+            pthread_exit((void*)&errno);
+        }
+        strncpy(file_in, pathFrom, PATH_MAX);
+        strncpy(file_out, pathTo, PATH_MAX);
+        strncat(file_in, "/", PATH_MAX);
+        strncat(file_out, "/", PATH_MAX);
+        /* Create directory in directory to copy */                        
+        if(mkdir(file_out, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0)
+        {
+            perror("Creating directory");
+            pthread_exit((void*)&errno);
+        }
+        strncpy(tempBufIn, file_in, PATH_MAX);
+        strncpy(tempBufOut, file_out, PATH_MAX);
+        while((fname = readdir(d)))
+        {
+            if (!strcmp(fname->d_name, ".") || !strcmp(fname->d_name, ".."))
+                continue;
+            else
             {                
                 strncat(file_in, fname->d_name, PATH_MAX);
                 result = lstat(file_in, &filestat);
@@ -154,7 +153,7 @@ void copy_recursive(char *pathFrom, char *pathTo)
                             perror("Creating directory");
                             pthread_exit((void*)&errno);
                         }
-                        copy_recursive(file_in, file_out);
+                        copy(file_in, file_out);
                     }
                     else 
                         if(S_ISREG(filestat.st_mode))
@@ -165,30 +164,25 @@ void copy_recursive(char *pathFrom, char *pathTo)
                 }
                 else
                 {
-                    perror("copy_recursive: get file stat");
+                    perror("copy: get file stat");
                     pthread_exit((void*)&result);
                 }
                 strncpy(file_in, tempBufIn, PATH_MAX);
                 strncpy(file_out, tempBufOut, PATH_MAX);
             }
+        }
+        closedir(d);
     }
-    closedir(d);
+    else    
+        copy_file(pathFrom, pathTo);
 }
 
-/* Копирование папки */
-void* copy_directory_thread(void *data)
+/* Копирование */
+void* copy_thread(void *data)
 {
     struct copyData *copyData;
     copyData = (struct copyData*)data;    
-    copy_recursive(copyData->pathFrom, copyData->pathTo);
-    pthread_exit((void*)0);
-}
-
-void* copy_file_thread(void *data)
-{
-    struct copyData *copyData;
-    copyData = (struct copyData*)data;    
-    copy_file(copyData->pathFrom, copyData->pathTo);
+    copy(copyData->pathFrom, copyData->pathTo);
     pthread_exit((void*)0);
 }
 
@@ -245,10 +239,10 @@ void* progress_bar(void *data)
         pthread_mutex_lock(&shared.mutex);
         bytes_copied = shared.bytes_done;
         pthread_mutex_unlock(&shared.mutex);
-        pbData->progress = (bytes_copied/onePercentSize)/100; /* Прогресс в относительной величине (относительно 1) */
-        
+        pbData->progress = (bytes_copied/onePercentSize)/100; /* Прогресс в относительной величине (относительно 1) */        
         tui_progress_bar(win->overlay, pbData->progress);
         update_service_panel(win);
+        sleep(1);
     }
     tui_del_service_window(win);
     pthread_exit((void*)0);
@@ -272,12 +266,10 @@ int create_threads(char *pathFrom, char *pathTo, cursed_window **windows)
     result = lstat(pathFrom, &filestat);
     if(result == 0)
     {
-        if(S_ISDIR(filestat.st_mode))
-        {
-            result = pthread_create(&tid_copy, NULL, copy_directory_thread, &data);
+            result = pthread_create(&tid_copy, NULL, copy_thread, &data);
 	        if (result != 0)
             {
-		        perror("Creating the copy_directory_thread");
+		        perror("Creating the copy_thread");
 		        return EXIT_FAILURE;
 	        }
 
@@ -291,7 +283,7 @@ int create_threads(char *pathFrom, char *pathTo, cursed_window **windows)
             result = pthread_join(tid_copy, NULL);
             if (result != 0) 
             {
-                perror("Joining the copy_directory_thread");
+                perror("Joining the copy_thread");
                 return EXIT_FAILURE;
             }
 
@@ -300,39 +292,7 @@ int create_threads(char *pathFrom, char *pathTo, cursed_window **windows)
             {
                 perror("Joining the progress_bar thread");
                 return EXIT_FAILURE;
-            }            
-        } 
-        else 
-            if(S_ISREG(filestat.st_mode))
-            {                            
-                result = pthread_create(&tid_copy, NULL, copy_file_thread, &data);
-                if (result != 0) 
-                {
-                    perror("Creating the copy_file_thread");
-                    return EXIT_FAILURE;
-                }
-
-                result = pthread_create(&tid_pb, NULL, progress_bar, &pbData);
-                if (result != 0) 
-                {
-                    perror("Creating the progress_bar thread");
-                    return EXIT_FAILURE;
-                }
-
-                result = pthread_join(tid_copy, NULL);
-                if (result != 0) 
-                {
-                    perror("Joining the copy_file_thread thread");
-                    return EXIT_FAILURE;
-                }
-
-                result = pthread_join(tid_pb, NULL);
-                if (result != 0) 
-                {
-                    perror("Joining the progress_bar thread");
-                    return EXIT_FAILURE;
-                }
-            }                          
+            } 
     }
     else
     {
