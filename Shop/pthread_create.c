@@ -7,7 +7,7 @@ void set_shared_data()
         memcpy(&shared.mutex[i], &initial_mutex, sizeof(initial_mutex));        
     for(int i = 0; i < PRODUCTS_NUM; i++)
         shared.products[i] = INIT_PRODUCTS;
-    shared.producerStatus = 0;    
+    shared.producerStatus = 0;
     shared.boughtConsumersCounter = 0;
 }
 
@@ -28,18 +28,20 @@ void *producer_func(void *arg)
 {
 	int cnt = 0;
 	int consumersStatus = -1;
-	while(1) 
+	int *status = malloc(sizeof(int));
+	*status = 0;
+	while(1)
 	{
-		sleep(2);        
+		sleep(2);
 		for(int i = 0; i < PRODUCTS_NUM; i++)
-		{        
+		{
 			if((pthread_mutex_trylock(&shared.mutex[i])) == 0)
 			{
-				shared.products[i] = PRODUCT_VOLUME;			
-				printf("Producer tid%lu delivered goods. Product #%d\n", pthread_self(), i);
+				shared.products[i] = PRODUCT_VOLUME;
+				printf("Producer tid_%lu delivered goods. Product #%d\n", pthread_self(), i);
 				pthread_mutex_unlock(&shared.mutex[i]);
 				cnt++;
-                *((int*)arg) = cnt;                           
+                *((int*)arg) = cnt;
 			}
 		}
 		pthread_mutex_lock(&shared.mutex[PRODUCTS_NUM]);
@@ -48,9 +50,14 @@ void *producer_func(void *arg)
 		pthread_mutex_unlock(&shared.mutex[PRODUCTS_NUM]);
 		if(cnt > PRODUCER_MAX_DELIVERY_ITERATIONS || consumersStatus == 0)
 		{
-			shared.producerStatus = -1;
-			printf("Producer tid%lu ended work. %d deliveries made\n", pthread_self(), cnt);
-			pthread_exit(NULL);			
+			if(cnt > PRODUCER_MAX_DELIVERY_ITERATIONS)
+			{
+				pthread_mutex_lock(&shared.mutex[PRODUCTS_NUM]);
+				shared.producerStatus = -1;
+				pthread_mutex_unlock(&shared.mutex[PRODUCTS_NUM]);
+			}
+			printf("Producer tid_%lu ended work. %d deliveries made\n", pthread_self(), cnt);
+			pthread_exit((void*)status);
 		}
 	}
 }
@@ -61,6 +68,8 @@ void *consumer_func(void *arg)
 	int consumptionVol = 0;
 	int maxConsumptionVol = CONSUMER_PRODUCT_VOL + generate_rand_num(200);
 	int goodsVolume = 0;
+	int *status = malloc(sizeof(int));
+	*status = 0;
 	while(goodsVolume < maxConsumptionVol) 
 	{
         sleep(1);
@@ -74,12 +83,13 @@ void *consumer_func(void *arg)
                     *((int*)arg) = cnt;
 					pthread_mutex_unlock(&shared.mutex[i]);
 					pthread_mutex_unlock(&shared.mutex[PRODUCTS_NUM]);
-					pthread_exit((void*)-1);
+					*status = -1;
+					pthread_exit((void*)status);
 				}
 				pthread_mutex_unlock(&shared.mutex[PRODUCTS_NUM]);
 				consumptionVol = PRODUCT_CONSUMPTION_VOL + generate_rand_num(50);
 				shared.products[i] -= consumptionVol;
-				printf("Consumer tid%lu took away %d goods. Product #%d\n", pthread_self(), consumptionVol, i);
+				printf("Consumer tid_%lu took away %d goods. Product #%d\n", pthread_self(), consumptionVol, i);
 				pthread_mutex_unlock(&shared.mutex[i]);
 				goodsVolume += consumptionVol;
                 cnt++;
@@ -90,6 +100,6 @@ void *consumer_func(void *arg)
 	pthread_mutex_lock(&shared.mutex[PRODUCTS_NUM]);
     shared.boughtConsumersCounter++;
 	pthread_mutex_unlock(&shared.mutex[PRODUCTS_NUM]);
-	printf("Consumer tid%lu ended. Bought %d goods\n", pthread_self(), goodsVolume);
-	pthread_exit(NULL);
+	printf("Consumer tid_%lu ended took away goods. Bought %d goods\n", pthread_self(), goodsVolume);
+	pthread_exit((void*)status);
 }
