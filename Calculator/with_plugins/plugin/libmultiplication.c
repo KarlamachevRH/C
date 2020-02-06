@@ -1,11 +1,6 @@
 #include <stdio.h>
 
-char *NAME = "multiplication";
-
-char* get_name()
-{
-    return NAME;
-} 
+char NAME[] = "multiplication";
 
 int multiplication(double *a, double *b, double *result)
 {

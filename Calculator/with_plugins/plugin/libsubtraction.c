@@ -1,11 +1,6 @@
 #include <stdio.h>
 
-char *NAME = "subtraction";
-
-char* get_name()
-{
-    return NAME;
-} 
+char NAME[] = "subtraction";
 
 int subtraction(double *a, double *b, double *result)
 {

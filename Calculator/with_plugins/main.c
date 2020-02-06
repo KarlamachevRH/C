@@ -8,16 +8,16 @@
 
 #define N 2
 #define MAX_LIB_NUM 50
-#define MAX_STR_SIZE 128
+#define MAX_STR_SIZE 64
 
 double a[N], b[N], result[N];
-const char *funcName = "get_name";
+const char *funcName = "NAME";
 
 void set_zero(double *x)
 {
     int i;
-    for (i = 0; i < N; i++)    
-        x[i] = 0;  
+    for (i = 0; i < N; i++)
+        x[i] = 0;
 }
 
 void set_globals_to_zero()
@@ -28,59 +28,61 @@ void set_globals_to_zero()
 }
 
 /* Открываем совместно используемую библиотеку */
-void get_dl_handle(void *dl_handle, char *lib)
-{    
-    dl_handle = dlopen(lib, RTLD_LAZY|RTLD_GLOBAL);
+void* get_dl_handle(void *dl_handle, char *lib)
+{
+    printf("Name of library: %s\n", lib);
+    char fn[MAX_STR_SIZE];
+    strncat(fn, "./plugin/", MAX_STR_SIZE);
+    strncat(fn, lib, MAX_STR_SIZE);
+    dl_handle = dlopen(fn, RTLD_LAZY);
     if (!dl_handle) 
     {
-        printf("dlopen: %s\n", dlerror());        
+        printf("get_dl_handle: dlopen: %s\n", dlerror());
         exit(EXIT_FAILURE);
     }
     (void) dlerror(); /* Clear dlerror() */
+    return dl_handle;
 }
 
-/* Get all libaries within directory "./plugin" */
-int get_libraries_list(char **libNames)
+/* Get all libraries within directory "./plugin" */
+void get_libraries_list(char **libNames)
 {
-    DIR *dir;    
-    errno = 0;
-    int i = 0;    
-    struct dirent *entry;       
+    DIR *dir;
+    int i = 0;
+    struct dirent *entry;
     if ((dir = opendir ("./plugin")) != NULL)
-    {    
+    {
         while ((entry = readdir(dir)) != NULL && i < MAX_LIB_NUM)
-        {            
+        {
             if ((strstr(entry->d_name, ".so")) != NULL)
-            {                                             
+            {
                 strcpy(libNames[i], entry->d_name); 
-                i++;     
-                //printf("libName #%d: %s\n", i, libNames[i]);                  
-            }                                    
-        }            
+                i++;
+            }
+        } 
         closedir (dir);
-    } 
+    }
     else 
     {
         /* could not open directory */
-        perror ("");        
+        perror ("get_libraries_list: opendir");
+        exit(EXIT_FAILURE);
     }
-    return errno;
 }
 
 /* Находим  имя функции в библиотеке */
-void get_func_name(void *dl_handle, char *name)
+char* get_func_name(void *dl_handle, char *name)
 {
-    const char *err;
-    char* (*fp)() = NULL;
-
-    fp = dlsym(dl_handle, funcName); 
+    char *err;
+    name = dlsym(dl_handle, funcName);
     err = dlerror();
-    if (err != NULL)         
+    if (err != NULL)
     {
-        printf("dlsym: %s\n", err);        
+        printf("get_func_name: dlsym: %s\n", err);
         exit(EXIT_FAILURE);
-    }    
-    strcpy(name, fp());    
+    }
+    (void)dlerror();
+    return name;
 }
 
 /* Вывести результат */
@@ -93,20 +95,19 @@ void print_result()
 }
 
 /* Находим адрес функции в библиотеке */
-void get_func_address(void *dl_handle, char *name, int (*func)(double *a, double *b, double *result))
+void* get_func_address(void *dl_handle, char *name)
 {
     const char *err;
-    int error = 0;
-    func = dlsym(dl_handle, name); 
+    int (*func)(double *a, double *b, double *result);
+    
+    *(void **)(&func) = dlsym(dl_handle, name);
     err = dlerror();
-    if (err != NULL)         
+    if (err != NULL)
     {
-        printf("dlsym: %s\n", err);        
+        printf("dlsym: %s\n", err);
         exit(EXIT_FAILURE);
     }
-    error = func(a, b, result);   
-    if(!error)
-        print_result(); 
+    return func;
 }
 
 int ask_for_exit()
@@ -120,20 +121,20 @@ int ask_for_exit()
     return choice;
 }
 
-/*  Ввод значений комплексных чисел для произведения расчетов */
+/* Ввод значений комплексных чисел для произведения расчетов */
 void enter_complex_numbers(double *a, double *b)
 {    
     printf("Enter first complex number:\n");
-    printf("Enter real part:\n");
+    printf("Enter real part: ");
     scanf("%lf", a);
-    printf("Enter imaginary part:\n");
+    printf("Enter imaginary part: ");
     scanf("%lf", ++a);
 
     printf("Enter second complex number:\n");
-    printf("Enter real part:\n");
+    printf("Enter real part: ");
     scanf("%lf", b);
-    printf("Enter imaginary part:\n");
-    scanf("%lf", ++b);    
+    printf("Enter imaginary part: ");
+    scanf("%lf", ++b);
 }
 
 /* Меню выбора доступных операций */
@@ -142,17 +143,17 @@ int menu(char **libNames)
     int op = -1;
     int i, operationNum = 0;
     char libName[MAX_STR_SIZE] = {0};
-    int j = strlen("lib"); // индекс начала строки для вывода имени операции
+    int j = strlen("lib"); // индекс начала строки для вывода имени операции    
 
     printf("Enter mathematic operation:\n");
     printf("No operation and exit program: %d\n", operationNum++);
 
     for(i = 0; libNames[i][0] && i < MAX_LIB_NUM; i++)
-    {                          
-        strncpy(libName, &libNames[i][j], strlen(&libNames[i][j]) - strlen(".so")); 
+    {        
+        strncpy(libName, &libNames[i][j], strlen(&libNames[i][j]) - strlen(".so"));
         printf("%s: %d\n", libName, operationNum++);
-        memset(libName, 0, sizeof(char)*MAX_STR_SIZE);
-    }       
+        memset(libName, 0, MAX_STR_SIZE);
+    }
     while(op < 0 || op > operationNum)
     {
         scanf("%d", &op);
@@ -163,31 +164,37 @@ int menu(char **libNames)
 }
 
 /* Подключение библиотеки и выполнение выбранной операции с заданными числами */
-int calculate(char **libNames, void *dl_handle, 
+int calculate(char **libNames, void *dl_handle,
               int (*func)(double *a, double *b, double *result))
 {  
-    int op = 0;    
+    int op = 0;
     int isNextOperationEnabled = 1;
-    char name[MAX_STR_SIZE] = {0};
+    char *name = NULL;
+    //char *err;
+    int error = 0;
     
-    set_globals_to_zero();    
+    set_globals_to_zero();
     enter_complex_numbers(a, b);
 
-    errno = get_libraries_list(libNames);
-    if(errno)
-        printf("Getting libraries list error: %d\n", errno);        
+    get_libraries_list(libNames);
     
-    if(op = menu(libNames))
+    if((op = menu(libNames)))
     {
         op--;
-        get_dl_handle(dl_handle, libNames[op]);
-        get_func_name(dl_handle, name);
-        get_func_address(dl_handle, name, func);
+        dl_handle = get_dl_handle(dl_handle, libNames[op]);
+        name = get_func_name(dl_handle, name);
+        printf("Name of operation: %s\n", name);
+        func = get_func_address(dl_handle, name);
+
+        //calculate result in function from library
+        error = (*func)(a, b, result);
+        if(!error)
+            print_result();
+        dlclose(dl_handle);
     }
     else
     {
-        printf("Exit program...\n");
-        dlclose(dl_handle);
+        printf("Exit program...\n");        
         isNextOperationEnabled = 0;
     } 
     (void) dlerror(); 
@@ -195,16 +202,16 @@ int calculate(char **libNames, void *dl_handle,
 }
 
 int main (int argc, char **argv)
-{   
-    int isNextOperationEnabled = 1;    
-    int i;     
+{
+    int isNextOperationEnabled = 1;
+    int i;
     void *dl_handle = NULL;
-    
-    char *libNames[MAX_LIB_NUM]; 
+
+    char *libNames[MAX_LIB_NUM];
 
     for (i = 0; i < MAX_LIB_NUM; i++)
-        libNames[i] = calloc(MAX_STR_SIZE, sizeof(char));       
-    
+        libNames[i] = calloc(MAX_STR_SIZE, sizeof(char));
+
     int (*func)(double *a, double *b, double *result) = NULL;
 
     printf("Calculator loaded\n");
@@ -212,17 +219,13 @@ int main (int argc, char **argv)
     while(isNextOperationEnabled)
     {
         isNextOperationEnabled = calculate(libNames, dl_handle, func);
-        isNextOperationEnabled = ask_for_exit();   
-        for(i = 0; i < MAX_LIB_NUM; i++)         
+        isNextOperationEnabled = ask_for_exit();
+        for(i = 0; i < MAX_LIB_NUM; i++)
             memset(libNames[i], 0, sizeof(char)*MAX_STR_SIZE);
-    }    
-    if(dl_handle != NULL)
-        dlclose(dl_handle); 
-    for (i = 0; libNames[i] != NULL && i < MAX_LIB_NUM; i++)
-    {
-        if(libNames[i] != NULL)
-            free(libNames[i]);        
     }
+    for (i = 0; libNames[i] != NULL && i < MAX_LIB_NUM; i++)
+        free(libNames[i]);
+
     printf("Calculator unloaded\n");
     return EXIT_SUCCESS;
 }
