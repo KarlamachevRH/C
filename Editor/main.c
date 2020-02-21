@@ -87,7 +87,7 @@ void create_help_list(struct _cursed_window *helpWindow)
         "o - input string and go to input mode",
         "d - delete current line",
         "CTRL+L - redraw the screen",
-        "w - save file and exit",
+        "w - save file",
         "q - exit without saving file",
     };
     make_menu(helpWindow, promtList);
