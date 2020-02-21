@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <panel.h>
+
+#define NUM_WINDOWS 2
+#define NLINES 20
+#define NCOLS 40
+
+void init_wins(WINDOW **wins);
+
+int main()
+{	
+  WINDOW *my_wins[NUM_WINDOWS];
+  PANEL  *my_panels[NUM_WINDOWS];
+  PANEL  *top;
+  int ch;
+	int i = 0, j = 0, width;
+
+  /* инициализация ncurses */
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
+  /* инициализация цветовой палитры */
+  if (!has_colors())
+  {
+    endwin();
+    printf("\nОшибка! Не поддерживаются цвета\n");
+    return 1;
+  }
+  start_color();
+  init_pair(1, COLOR_RED, COLOR_BLUE);
+  init_pair(2, COLOR_GREEN, COLOR_RED);
+
+	// инициализация окон
+	init_wins(my_wins);
+	
+	// создание панелей на основе созданных окон
+	for(i = 0; i < NUM_WINDOWS; i++)
+		my_panels[i] = new_panel(my_wins[i]);
+
+	// устанавливаем указатели на следующее окно
+	// для перехода при нажатии F1 на окно помощи
+	for(i = 0, j = i + 1; i < NUM_WINDOWS && j < NUM_WINDOWS; i++, j++)
+		set_panel_userptr(my_panels[i], my_panels[j]);
+	set_panel_userptr(my_panels[i], my_panels[0]);
+	
+
+  // обновление и прорисовка
+  update_panels();
+	width = getmaxx(my_wins[0]);
+  mvprintw(0, width/2, "F2 - Help, F10 - Exit");
+  doupdate();
+
+  // т.к. панель с индексом 1 создавалась последней 
+  // значит она и будет верхней
+  top = my_panels[1];
+
+  // цикл обработки сообщений с клавиатуры
+  while((ch = getch()) != KEY_F(10))
+  {	
+    switch(ch)
+    {
+      case KEY_F(2): // переход на следующую панель
+      top = (PANEL *)panel_userptr(top);
+      top_panel(top);
+      break;
+    }
+    // обновление и перерисовка
+    update_panels();
+    doupdate();
+  }
+  // уничтожение созданных панелей и окон
+  for(i = 0; i < NUM_WINDOWS; ++i)
+  {
+    del_panel(my_panels[i]);
+    delwin(my_wins[i]);
+  }
+  //завершение программы
+  endwin();
+  return 0;
+}
+
+// инициализация окон
+void init_wins(WINDOW **wins)
+{
+    int x, y, i;
+
+    y = 1;
+    x = 1;
+
+    for(i = 0; i < NUM_WINDOWS; ++i)
+    {
+      wins[i] = newwin(NLINES, NCOLS, y, x);
+      wbkgdset(wins[i], COLOR_PAIR(i+1));
+      wclear(wins[i]);
+      wrefresh(wins[i]);
+    }
+} 
