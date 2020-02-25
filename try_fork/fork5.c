@@ -22,7 +22,7 @@ enum PROC_TYPE
 
 
 /* Если выполняется родительский процесс */
-void parent_proccess(int num_proccesses, pid_t *pid)
+void parent_process(int num_processes, pid_t *pid)
 {
 	int i, status, stat;
 	pid_t getPid, getPpid;
@@ -31,7 +31,7 @@ void parent_proccess(int num_proccesses, pid_t *pid)
 	printf("PARENT: ppid: %d\n", getPpid);
 	printf("PARENT: pid: %d\n", getPid);
 	// ожидание окончания выполнения запущенных процессов
-	for(i = 0; i < num_proccesses; i++)
+	for(i = 0; i < num_processes; i++)
 	{
 		status = waitpid(pid[i], &stat, 0);
 		if (pid[i] == status)
@@ -40,7 +40,7 @@ void parent_proccess(int num_proccesses, pid_t *pid)
 }
 
 /* Запускаем дочерний процесс */
-void fork_proccess(int num)
+void fork_process(int num)
 {
 	pid_t pid, ppid;
 	int num_processes = 1;
@@ -59,14 +59,14 @@ void fork_proccess(int num)
 			printf("CHILD: ppid: %d\n", ppid);
 			printf("CHILD: pid: %d\n", pid);
 			if(num < TREE_LEVEL_MAX)
-				fork_proccess(num);
+				fork_process(num);
 			exit(EXIT_SUCCESS); /* выход из процесс-потомока */
 		}
-	parent_proccess(num_processes, &pid);
+	parent_process(num_processes, &pid);
 }
 
 /* Запускаем 2 дочерниx процесса */
-void fork_proccesses(int num)
+void fork_processes(int num)
 {
 	pid_t pid[NUM_PROC], getPid, getPpid;
 
@@ -89,22 +89,22 @@ void fork_proccesses(int num)
 				printf("CHILD: pid: %d\n", getPid);
 				if(num < TREE_LEVEL_MAX && i == LEFT_PROC)
 				{
-					fork_proccess(num);
+					fork_process(num);
 				}
 				else 
 				if(num < TREE_LEVEL_MAX && i == RIGHT_PROC)
 				{
-					fork_proccesses(num);
+					fork_processes(num);
 				}
 				exit(EXIT_SUCCESS); /* выход из процесс-потомока */
 			}
 	}
-	parent_proccess(NUM_PROC, pid);
+	parent_process(NUM_PROC, pid);
 }
 
 int main(int argc, char* argv[]) 
 {
 	int num = 0;
-	fork_proccesses(num);
+	fork_processes(num);
 	return EXIT_SUCCESS;
 }
