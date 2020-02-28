@@ -1,2 +1,0 @@
-Some text maded in tee programm.
-File edited in vi programm.

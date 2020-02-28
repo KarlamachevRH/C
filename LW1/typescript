@@ -1,15 +1,0 @@
-Скрипт запущен Вс 07 окт 2018 18:43:34
-]0;rinat@rinat-H97-HD3: ~/eltex/LW_C/LW1[01;32mrinat@rinat-H97-HD3[00m:[01;34m~/eltex/LW_C/LW1[00m$ cp tee_maked_file.txt tee_maked_file.txt1.txt[C[C[C[C
-]0;rinat@rinat-H97-HD3: ~/eltex/LW_C/LW1[01;32mrinat@rinat-H97-HD3[00m:[01;34m~/eltex/LW_C/LW1[00m$ cp tee_maked_file.txt tee_maked_file1.txt[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls -lh[K
-итого 8,0K
--rw-rw-r-- 1 rinat rinat 61 окт  7 18:44 tee_maked_file1.txt
--rw-rw-r-- 1 rinat rinat 61 окт  7 17:58 tee_maked_file.txt
--rw-rw-r-- 1 rinat rinat  0 окт  7 18:43 typescript
-]0;rinat@rinat-H97-HD3: ~/eltex/LW_C/LW1[01;32mrinat@rinat-H97-HD3[00m:[01;34m~/eltex/LW_C/LW1[00m$ unlink tee_maked_file1.txt
-]0;rinat@rinat-H97-HD3: ~/eltex/LW_C/LW1[01;32mrinat@rinat-H97-HD3[00m:[01;34m~/eltex/LW_C/LW1[00m$ unlink tee_maked_file1.txtls -lh[K
-итого 4,0K
--rw-rw-r-- 1 rinat rinat 61 окт  7 17:58 tee_maked_file.txt
--rw-rw-r-- 1 rinat rinat  0 окт  7 18:43 typescript
-]0;rinat@rinat-H97-HD3: ~/eltex/LW_C/LW1[01;32mrinat@rinat-H97-HD3[00m:[01;34m~/eltex/LW_C/LW1[00m$ exit
-
-Скрипт выполнен Вс 07 окт 2018 18:44:45

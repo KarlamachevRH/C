@@ -1,5 +1,0 @@
-message AMessage {
-    optional int32 t=1; 
-    optional int32 len=2;
-    required string mtext=3;
-  }
