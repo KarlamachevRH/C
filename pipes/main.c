@@ -1,12 +1,12 @@
-#define _XOPEN_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <wait.h>
 #include <errno.h>
 #include <string.h>
+
+//#define DEBUG
 
 #ifdef DEBUG
 #define log_info(M, ...) fprintf(stderr, "[INFO] (%s:%d) " M "\n",\
@@ -15,10 +15,11 @@
 #define log_info(M, ...)
 #endif //DEBUG
 
-#define ARG_LEN_MAX 	32
-#define ARG_NUM_MAX 	10
-#define STR_LEN_MAX 	512
-#define PROG_NUM_MAX 	12
+#define ARG_LEN_MAX 		32
+#define ARG_NUM_MAX 		10
+#define ARG_LIST_LEN_MAX 	128
+#define PROG_LIST_LEN_MAX 	512
+#define PROG_NUM_MAX 		12
 
 
 int main(int argc, char **argv) 
@@ -38,36 +39,47 @@ int main(int argc, char **argv)
 
 	pid_t **pid = NULL;
 	char *programs_tokens[PROG_NUM_MAX];
+	memset(programs_tokens, 1, sizeof(char*));
 	char *arguments_tokens[ARG_NUM_MAX];
+	memset(arguments_tokens, 1, sizeof(char*));	
 	int programs_counter = 0;
 	int arguments_counter = 0;
-	char programs_list[STR_LEN_MAX];
-	char arguments_list[STR_LEN_MAX];
-	int i = 0;
-	int fd[2];
+	char programs_list[PROG_LIST_LEN_MAX] = {0};
+	char arguments_list[ARG_LIST_LEN_MAX] = {0};
+	char *arguments[ARG_NUM_MAX];
+	for(int i = 0; i < ARG_NUM_MAX; i++)
+		arguments[i] = calloc(ARG_LEN_MAX, sizeof(char));
+	int pipe_fd[2];
 	
-	if(pipe(fd) < 0)
+	if(pipe(pipe_fd) < 0)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
 
 	printf(">");
-	fgets(programs_list, STR_LEN_MAX, stdin);
-	
-	while (programs_tokens[i] != NULL && programs_counter < PROG_NUM_MAX)         // пока есть лексемы
+	fgets(programs_list, PROG_LIST_LEN_MAX, stdin);
+	int len = strlen(programs_list);
+	programs_list[len-1] = 0; // '\n' = '\0'
+	int i = 0;
+	do
 	{
-		programs_tokens[i] = strtok(programs_list, "|");
+		if(i == 0)
+			programs_tokens[i] = strtok(programs_list, "|");
+		else 
+			programs_tokens[i] = strtok(NULL, "|");
 		programs_counter++;
-	}
-
+		i++;
+	} while(programs_tokens[i-1] != NULL && programs_counter < PROG_NUM_MAX); // пока есть лексемы
+	programs_counter--;
+	log_info("programs_counter: %d", programs_counter);
 	pid = calloc(programs_counter, sizeof(pid_t*));
-	for(i = 0; i < programs_counter; i++)
+	for(int i = 0; i < programs_counter; i++)
 		pid[i] = calloc(1, sizeof(pid_t));
 
-	for(i = 0; i < programs_counter; i++)
+	for(int j = 0; j < programs_counter; j++)
 	{
-		switch (*pid[i] = fork())
+		switch (*pid[j] = fork())
 		{
 		case -1:
 			perror("fork");
@@ -75,31 +87,44 @@ int main(int argc, char **argv)
 			break; /* We never reach this string, but I write it for good practice */
 	
 		case 0:
-			strncpy(arguments_list, programs_tokens[i], ARG_NUM_MAX);
-			while (arguments_tokens[i] != NULL && programs_counter < ARG_NUM_MAX)
+			strncpy(arguments_list, programs_tokens[j], ARG_LIST_LEN_MAX);
+			log_info("arguments_list: %s", arguments_list);
+			arguments_counter = 0;
+			int i = 0;
+			for(; arguments_tokens[i-1] != NULL && i < ARG_NUM_MAX; i++)
 			{
-				arguments_tokens[i] = strtok(arguments_list, " ");
+				if(i == 0)
+					arguments_tokens[i] = strtok(arguments_list, " ");
+				else
+					arguments_tokens[i] = strtok(NULL, " ");
+				log_info("arguments_token: %s", arguments_tokens[i]);
 				arguments_counter++;
 			}
-			arguments_list[0] = 0;
-			for(i = 1; i < arguments_counter; i++)
+			arguments_tokens[i] = NULL;
+			arguments_counter--;
+			for(i = 0; i < arguments_counter; i++)
 			{
-				strcat(arguments_list, "\"");
-				strcat(arguments_list, arguments_tokens[i]);
-				strcat(arguments_list, "\",");
+				strncpy(arguments[i], arguments_tokens[i], ARG_LEN_MAX);
+				log_info("argument #%d: %s", i, arguments[i]);
 			}
+			arguments[i] = NULL;
 			/* 
 			 * Заменим дескрипторы стандартного ввода/вывода на дескрипторы 
 			 * pipe для передачи данных вывода одной программы в другую 
 			 */
-			if(i%2) 			//если четный номер итерации (первая из двух программ, обменивающихся данными по pipe)
-				dup2(fd[1], 1);
-			else 				//если нечетный номер итерации (вторая из двух программ, обменивающихся данными по pipe)
-				dup2(fd[0], 0);
-			
-			if (execl("arguments_tokens[0]", arguments_list, NULL) < 0)
+			if(j%2 > 0) //если четный номер итерации (первая из двух программ, обменивающихся данными по pipe)
 			{
-				perror("execl");
+				close(pipe_fd[1]);
+				dup2(pipe_fd[0], STDIN_FILENO);
+			}
+			else 	//если нечетный номер итерации (вторая из двух программ, обменивающихся данными по pipe)
+			{
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], STDOUT_FILENO);
+			}
+			if (execvp(arguments[0], arguments) < 0)
+			{
+				perror("execvp");
 				exit(EXIT_FAILURE);
 			}
 			break; 
@@ -113,9 +138,13 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
-	for(i = 0; i < programs_counter; i++)
+	for(int i = 0; i < programs_counter; i++)
 		if(pid[i])
 			free(pid[i]);
 	free(pid);
+	for(int i = 0; i < ARG_NUM_MAX; i++)
+		if(arguments[i])
+				free(arguments[i]);
+	log_info("End of program");
 	exit(EXIT_SUCCESS);
 }
