@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	if (bytes_recieved <= 0) 
 		handle_error("ERROR reading from socket");
 	log_info("bytes_recieved: %d", bytes_recieved);
-	printf("Message from client: %s\n", str_for_receive);
+	printf("Message from server: %s\n", str_for_receive);
 	
 	/* Освободим сокет */
 	close(my_sock);
