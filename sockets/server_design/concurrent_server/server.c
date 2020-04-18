@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	/* Cервер принимает подключения на все адреса сетевых подключений сервера */
-	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	serv_addr.sin_port = htons(portno);
 
 	/* Вызываем bind для связывания */

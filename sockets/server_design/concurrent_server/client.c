@@ -24,6 +24,7 @@ void *request(void *arg)
 	int bytes_recieved = 0;
 	char str_for_send[DATE_STR_LEN] = {0};
 	char str_for_receive[DATE_STR_LEN] = {0};
+	pthread_t th = pthread_self();
 
 	snprintf(str_for_send, DATE_STR_LEN, "%s", "Date");
 
@@ -47,9 +48,11 @@ void *request(void *arg)
 	if (bytes_recieved < 0) 
 		handle_error("ERROR reading from socket");
 	log_info("bytes_recieved: %d", bytes_recieved);
-	printf("Message from server: %s\n", str_for_receive);
+
 	pthread_mutex_lock(&data.mutex);
 		data.clientsnum++;
+		printf("Thread id: %ld, #%d\n", th, data.clientsnum);
+		printf("Message from server: %s\n", str_for_receive);
 		if(data.clientsnum == CLIENTS_NUM)
 			pthread_cond_signal(&data.cond);
 	pthread_mutex_unlock(&data.mutex);
