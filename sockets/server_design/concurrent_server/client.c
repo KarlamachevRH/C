@@ -25,6 +25,7 @@ void *request(void *arg)
 	char str_for_send[DATE_STR_LEN] = {0};
 	char str_for_receive[DATE_STR_LEN] = {0};
 	pthread_t th = pthread_self();
+	int err;
 
 	snprintf(str_for_send, DATE_STR_LEN, "%s", "Date");
 
@@ -49,13 +50,23 @@ void *request(void *arg)
 		handle_error("ERROR reading from socket");
 	log_info("bytes_recieved: %d", bytes_recieved);
 
-	pthread_mutex_lock(&data.mutex);
+	err = pthread_mutex_lock(&data.mutex);
+	if (err != 0)
+		handle_error("pthread_mutex_lock");
+
 		data.clientsnum++;
 		printf("Thread id: %ld, #%d\n", th, data.clientsnum);
 		printf("Message from server: %s\n", str_for_receive);
 		if(data.clientsnum == CLIENTS_NUM)
-			pthread_cond_signal(&data.cond);
-	pthread_mutex_unlock(&data.mutex);
+		{
+			err = pthread_cond_signal(&data.cond);
+			if (err != 0)
+				handle_error("pthread_cond_signal");
+		}
+
+	err = pthread_mutex_unlock(&data.mutex);
+	if (err != 0)
+		handle_error("pthread_mutex_unlock");
 
 	/* Освободим сокет */
 	close(sockfd);
@@ -72,6 +83,7 @@ int main(int argc, char **argv)
 	int portno;
 	struct sockaddr_in serv_addr;
 	struct hostent *server;
+	int err;
 
 	if (argc < 3) 
 	{
@@ -110,10 +122,19 @@ int main(int argc, char **argv)
 		else 
 			pthread_detach(tid[i]);
 	}
-	pthread_mutex_lock(&data.mutex);
-		pthread_cond_wait(&data.cond, &data.mutex);
-			printf("Client is ended work. Press \"Enter\" to quit program\n");
-	pthread_mutex_unlock(&data.mutex);
+	err = pthread_mutex_lock(&data.mutex);
+	if (err != 0)
+		handle_error("pthread_mutex_lock");
+
+		err = pthread_cond_wait(&data.cond, &data.mutex);		
+		if (err != 0)
+			handle_error("pthread_mutex_unlock");
+		printf("Client is ended work. Press \"Enter\" to quit program\n");
+
+	err = pthread_mutex_unlock(&data.mutex);
+	if (err != 0)
+		handle_error("pthread_mutex_unlock");
+	
 	getchar();
 	log_info("End of client program");
 	exit(EXIT_SUCCESS);

@@ -2,7 +2,7 @@
 
 CC=gcc
 CFLAGS=-c -g -Wall -std=c99 
-LDFLAGS=-lpthread
+LDFLAGS=-pthread
 SOURCES=server.c client.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=server client

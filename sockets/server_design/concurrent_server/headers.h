@@ -2,19 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <errno.h>
 #include <string.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <sys/ipc.h>
-#include <ctype.h>
 #include <time.h>
-#include <signal.h>
 
 #ifndef __HEADERS_H__
 #define __HEADERS_H__
