@@ -49,22 +49,6 @@ static char *get_date()
 	return date;
 }
 
-/* Using cleanup handler for pthread_cancel of serving threads */
-static void cleanup_handler_mutex(void *arg)
-{
-	int err;
-	log_info("Unlocking mutex1");
-	err = pthread_mutex_unlock(&handler_data.mutex);
-	if (err != 0)
-		handle_error("pthread_mutex_unlock");
-}
-
-static void cleanup_buf_handler(void *arg)
-{
-	if(arg != NULL)
-		free(arg);
-}
-
 static void *request_handler(void *arg)
 {
 	int cfd; /* Сonnected socket */
@@ -77,10 +61,10 @@ static void *request_handler(void *arg)
 	int err;
 
 	char *date = NULL;
-	pthread_cleanup_push(cleanup_buf_handler, date);
-		date = get_date();
-		snprintf(str_for_send, DATE_STR_LEN, "%s", date);
-	pthread_cleanup_pop(1); /* Executes cleanup handler */
+	date = get_date();
+	snprintf(str_for_send, DATE_STR_LEN, "%s", date);
+	if(date != NULL)
+		free(date);
 	
 	clilen = sizeof(cli_addr);
 
@@ -90,13 +74,14 @@ static void *request_handler(void *arg)
 		err = pthread_mutex_lock(&handler_data.mutex);
 		if (err != 0)
 			handle_error("pthread_mutex_lock");
-		
-		pthread_cleanup_push(cleanup_handler_mutex, NULL);
+
 			cfd = accept(handler_data.lfd,(struct sockaddr *) &cli_addr, &clilen);
 			if (cfd < 0)
 				handle_error("error on accept");
-			
-		pthread_cleanup_pop(1); /* Executes cleanup handler */
+		
+		err = pthread_mutex_unlock(&handler_data.mutex);
+		if (err != 0)
+			handle_error("pthread_mutex_unlock");
 
 		print_client_data(cli_addr);
 
@@ -179,7 +164,7 @@ int main(int argc, char **argv)
 	while(1)
 	{
 		pause();
-	}	
+	}
 	close(handler_data.lfd);
 	log_info("End of server program");
 	exit(EXIT_SUCCESS);
