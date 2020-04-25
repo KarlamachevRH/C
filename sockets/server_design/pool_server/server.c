@@ -57,7 +57,7 @@ static void *request_handler(void *arg)
 	char str_for_send[DATE_STR_LEN] = {0};
 	char str_for_receive[DATE_STR_LEN] = {0};
 	socklen_t clilen; // размер адреса клиента типа socklen_t
-	struct sockaddr_in cli_addr; // структура сокета сервера и клиента
+	struct sockaddr_in cli_addr; // структура сокета клиента
 	int err;
 
 	char *date = NULL;
