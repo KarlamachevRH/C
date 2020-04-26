@@ -11,7 +11,7 @@
 #ifndef __HEADERS_H__
 #define __HEADERS_H__
 
-#define QUEUE_SIZE          1100
+#define QUEUE_SIZE          5
 #define CLIENT_ADDR_LEN     16
 #define DATE_STR_LEN        48
 
