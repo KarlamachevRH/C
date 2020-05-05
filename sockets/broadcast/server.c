@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 	if(date == NULL)
 		handle_error("calloc");
 	
-	struct sockaddr_in serv_addr; // структура сокета сервера и клиента
+	struct sockaddr_in serv_addr; // структура сокета сервера
 	
 	/* Создание сокета */
 	udp_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	/* Связывание сокета с локальным адресом */
+	/* Заполнение структуры сокета сервера для отправки на широковещательный адрес */
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	ret = inet_aton(broad_addr, (struct in_addr *)&serv_addr.sin_addr.s_addr);

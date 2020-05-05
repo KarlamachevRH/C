@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	/* Установка порта */
 	serv_addr.sin_port = htons(port_num);
 
-	/* Вызываем bind для связывания */
+	/* Вызываем bind для связывания с широковещательным адресом */
 	if (bind(udp_sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) 
 		handle_error("error on binding");
 
