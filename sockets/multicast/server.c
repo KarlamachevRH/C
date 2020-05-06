@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	if(date == NULL)
 		handle_error("calloc");
 	
-	struct sockaddr_in serv_addr; // структура сокета сервера
+	struct sockaddr_in client_addr; // структура сокета клиента
 	
 	/* Создание сокета */
 	udp_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -88,20 +88,20 @@ int main(int argc, char **argv)
 	}
 
 	/* Заполнение структуры сокета сервера */
-	memset(&serv_addr, 0, sizeof(serv_addr));
-	serv_addr.sin_family = AF_INET;
-	ret = inet_aton(multicast_addr, (struct in_addr *)&serv_addr.sin_addr.s_addr);
+	memset(&client_addr, 0, sizeof(client_addr));
+	client_addr.sin_family = AF_INET;
+	ret = inet_aton(multicast_addr, (struct in_addr *)&client_addr.sin_addr.s_addr);
 	if(ret == 0)
 	{
 		printf("inet_aton: Unknown host address\n");
 		exit(EXIT_FAILURE);
 	}
-	serv_addr.sin_port = htons(port_num);
+	client_addr.sin_port = htons(port_num);
 
 	while (1)
 	{
 		get_date(date);
-		bytes_sended = sendto(udp_sockfd, date, strlen(date) + 1, 0, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in));
+		bytes_sended = sendto(udp_sockfd, date, strlen(date) + 1, 0, (struct sockaddr *)&client_addr, sizeof(struct sockaddr_in));
 		if (bytes_sended < 0) 
 			handle_error("ERROR send data to socket");
 		log_info("bytes_sended: %d", bytes_sended);
