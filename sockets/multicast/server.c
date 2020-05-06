@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	/* Заполнение структуры сокета сервера */
+	/* Заполнение структуры сокета клиента */
 	memset(&client_addr, 0, sizeof(client_addr));
 	client_addr.sin_family = AF_INET;
 	ret = inet_aton(multicast_addr, (struct in_addr *)&client_addr.sin_addr.s_addr);
