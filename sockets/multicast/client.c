@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 		if (bytes_recieved < 0)
 			handle_error("ERROR reading from socket");
 		else if(bytes_recieved == 0)
-				printf("No data sended to client\n");
+				printf("No data recieved from server\n");
 		log_info("bytes_recieved: %d", bytes_recieved);
 
 		print_server_data(serv_addr);
