@@ -72,7 +72,8 @@ int main(int argc, char **argv)
 		handle_error("error on binding");
 
 	socklen_t len = sizeof(struct sockaddr_in);
-	bytes_recieved = recvfrom(udp_sockfd, recieving_buf, MAX_BUF_SIZE, 0, (struct sockaddr *)&recieved_addr, &len); 
+	bytes_recieved = recvfrom(udp_sockfd, recieving_buf, MAX_BUF_SIZE, 0, \
+							 (struct sockaddr *)&recieved_addr, &len); 
 	if (bytes_recieved < 0)
 		handle_error("ERROR reading from socket");
 	else if(bytes_recieved == 0)
@@ -84,10 +85,12 @@ int main(int argc, char **argv)
 
 	snprintf(sending_buf, MAX_BUF_SIZE, "%s", "Hello from server!");
 
-	bytes_sended = sendto(udp_sockfd, sending_buf, strlen(sending_buf) + 1, 0, (struct sockaddr *)&recieved_addr, sizeof(struct sockaddr_in));
+	bytes_sended = sendto(udp_sockfd, sending_buf, strlen(sending_buf) + 1, 0, \
+						 (struct sockaddr *)&recieved_addr, sizeof(struct sockaddr_in));
 	if (bytes_sended < 0) 
 		handle_error("ERROR send data to socket");
 	log_info("bytes_sended: %d", bytes_sended);
+	printf("Sended string to client: %s\n", sending_buf);
 
 	/* Освободим сокет */
 	close(udp_sockfd);
