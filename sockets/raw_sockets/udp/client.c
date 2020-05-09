@@ -102,10 +102,10 @@ int main(int argc, char **argv)
 	 * Сместим указатель в приемном буфере до адреса переменной, 
 	 * в которой хранится порт назначения 
 	 */
-	uint16_t *rbp = (uint16_t *)&recieving_buf[0];
-	rbp = rbp + sizeof(struct iphdr);
-	rbp++;	
-	
+	uint8_t *rbp = (uint8_t*)&recieving_buf[0];
+	size = sizeof(struct iphdr) + sizeof(udp_header.source);
+	rbp = rbp + size;
+
 	while (1)
 	{
 		bytes_recieved = recvfrom(udp_sockfd, recieving_buf, MAX_BUF_SIZE, 0, \
@@ -121,10 +121,11 @@ int main(int argc, char **argv)
 		 * Порт назначения из UDP - заголовка в приемном буфере должен
 		 * совпадать с портом отправителя, заполненном нами 
 		 */
-		if(*rbp == udp_header.source) 
+		log_info("recieved datagram destination port: %d", ntohs(*(uint16_t*)rbp));
+		log_info("sended datagram source port: %d", ntohs(udp_header.source));
+		if(*(uint16_t*)rbp == udp_header.source) 
 		{
-			rbp--;
-			rbp = rbp + sizeof(struct udphdr);
+			rbp = (uint8_t*)rbp + sizeof(struct udphdr) - sizeof(udp_header.source);
 			printf("Message from server: %s\n", (char*)rbp);
 			break;
 		}
