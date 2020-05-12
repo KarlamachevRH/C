@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	memmove(&server_addr.sin_addr.s_addr, server->h_addr_list[0], server->h_length);
 	server_addr.sin_port = htons(port_num);
 
-	/* Размер */
+	/* Размер датаграммы на транспортном уровне, затем пакета на сетевом */
 	size_t size = 0;
 	size_t payload_size = strlen(msg) + 1;
 
