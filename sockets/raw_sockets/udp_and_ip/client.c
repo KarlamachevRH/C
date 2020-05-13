@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	memmove(&server_addr.sin_addr.s_addr, server->h_addr_list[0], server->h_length);
 	server_addr.sin_port = htons(port_num);
 
-	/* Размер датаграммы на транспортном уровне */
+	/* Размер датаграммы на транспортном, затем на сетевом уровне*/
 	size_t size = 0;
 	size_t payload_size = strlen(msg) + 1;
 
@@ -92,7 +92,8 @@ int main(int argc, char **argv)
 	ip_header.version = IPVERSION;
 	ip_header.ihl = 5;
 	ip_header.tos = 0;
-	ip_header.tot_len = 0;
+	size = size + sizeof(ip_header);	
+	ip_header.tot_len = htons(size);
 	ip_header.id = 0;
 	ip_header.frag_off = 0;
 	ip_header.ttl = IPDEFTTL;
