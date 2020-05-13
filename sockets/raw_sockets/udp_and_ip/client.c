@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 	ip_header.tot_len = htons(size);
 	ip_header.id = 0;
 	ip_header.frag_off = 0;
-	ip_header.ttl = IPDEFTTL;
+	ip_header.ttl = htons(IPDEFTTL);
 	ip_header.protocol = IPPROTO_UDP;
 	ip_header.check = 0;
 	ip_header.saddr = 0;
