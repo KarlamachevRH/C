@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <string.h>
-#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -14,8 +13,6 @@
 #include <netdb.h>
 #include <ctype.h>
 #include <signal.h>
-#include <linux/udp.h>
-#include <linux/ip.h>
 
 #ifndef __HEADERS_H__
 #define __HEADERS_H__
