@@ -33,29 +33,15 @@ int main(int argc, char **argv)
 	int port_num;
 	struct sockaddr_in server_addr;
 	struct sockaddr_in recieved_addr;
-	in_addr_t serv_ip;
-	struct hostent *server;
 
-	if(argc != 3 || strcmp(argv[1], "--help") == 0)
+	if(argc != 2 || strcmp(argv[1], "--help") == 0)
 	{
-		printf("%s <host address> <port number (range: 1025 - 65535)>\n", argv[0]);
+		printf("%s <port number (range: 1025 - 65535)>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-
-	/* Извлечение хоста */
-	server = gethostbyname(argv[1]);
-	if (server == NULL) 
-	{
-		fprintf(stderr,"ERROR, no such host\n");
-		exit(EXIT_FAILURE);
-	}
-	memmove(&serv_ip, server->h_addr_list[0], server->h_length);
-	struct in_addr ip_addr;
-    ip_addr.s_addr = serv_ip;
-    printf("Interface IP address: %s\n", inet_ntoa(ip_addr));
 
 	/* Извлечение порта */
-	port_num = atoi(argv[2]);
+	port_num = atoi(argv[1]);
 	if(port_num != 0 && port_num < 1025 && port_num > 65535)
 	{
 		printf("Port number is incorrect\n");
@@ -76,7 +62,7 @@ int main(int argc, char **argv)
 	/* Заполнение структуры server_addr */
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.s_addr = htonl(serv_ip);
+	server_addr.sin_addr.s_addr = INADDR_ANY;
 
 	/* Установка порта */
 	server_addr.sin_port = htons(port_num);
