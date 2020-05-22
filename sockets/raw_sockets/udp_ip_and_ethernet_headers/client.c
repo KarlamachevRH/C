@@ -28,21 +28,15 @@ static void sig_handler(int sig)
 	exit(EXIT_SUCCESS);
 }
 
-in_addr_t *get_interface_ip(char **argv, in_addr_t *ip)
+in_addr_t get_source_ip(char *argv, int sockfd)
 {
-	struct ifaddrs *ifaddr, *ifa;
-	
-	if (getifaddrs(&ifaddr) == -1) 
-		handle_error("getifaddrs");
-
-	for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
-	{
-		if (ifa->ifa_addr == NULL)
-			continue;
-		if (strncmp(argv[3], ifa->ifa_name, strlen(argv[3])+1) == 0)
-			memmove(ip, ifa->ifa_addr->sa_data, sizeof(*ip));
-	}
-	freeifaddrs(ifaddr);
+	in_addr_t ip;
+	struct ifreq ifr;
+	ifr.ifr_addr.sa_family = AF_INET;
+	strncpy(ifr.ifr_name, argv, IFNAMSIZ-1);
+	if (ioctl(sockfd, SIOCGIFADDR, &ifr) == -1) 
+		handle_error("ioctl");
+	memmove(&ip, &((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr, sizeof(in_addr_t));
 	return ip;
 }
 
@@ -75,7 +69,7 @@ uint16_t calculate_checksum(struct iphdr *ip_header)
 
 /* Заполнение заголовка протокола IP для RAW - сокета */
 void set_ip_header(struct iphdr *ip_header, size_t size, \
-				   in_addr_t interface_ip, in_addr_t dest_addr)
+				   in_addr_t source_ip, in_addr_t dest_addr)
 {
 	uint16_t csum = 0;
 	ip_header->version = IPVERSION;
@@ -87,7 +81,7 @@ void set_ip_header(struct iphdr *ip_header, size_t size, \
 	ip_header->ttl = IPDEFTTL;
 	ip_header->protocol = IPPROTO_UDP;
 	ip_header->check = 0;
-	ip_header->saddr = interface_ip;
+	ip_header->saddr = source_ip;
 	ip_header->daddr = dest_addr;
 	csum = calculate_checksum(ip_header);
 	ip_header->check = csum;
@@ -133,7 +127,7 @@ int main(int argc, char **argv)
 	int port_num; /* Номер порта */
 	int bytes_sended = 0;
 	int bytes_recieved = 0;
-	in_addr_t interface_ip;
+	in_addr_t source_ip;
 	in_addr_t dest_addr;
 	struct sockaddr_in recieved_addr;
 	struct sockaddr_ll server_ll_addr;
@@ -145,6 +139,7 @@ int main(int argc, char **argv)
 
 	struct udphdr udp_header; /* Заголовок протокола UDP для RAW - сокета */
 	struct iphdr ip_header; /* Заголовок протокола IP для RAW - сокета */
+	memset(&ip_header, 0, sizeof(ip_header));
 	struct ether_header mac_header; /* Заголовок протокола Ethernet для RAW - сокета */
 	memset(&mac_header, 0, sizeof(mac_header));
 
@@ -191,7 +186,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	
-	get_interface_ip(argv, &interface_ip);
+	source_ip = get_source_ip(argv[1], raw_sockfd);
 
 	memset(&server_ll_addr, 0, sizeof(server_ll_addr));
 	server_ll_addr.sll_family = AF_PACKET;
@@ -212,27 +207,19 @@ int main(int argc, char **argv)
 	/* Заполнение заголовка протокола IP для RAW - сокета */
 	size = size + sizeof(ip_header);
 	memmove(&dest_addr, server->h_addr_list[0], server->h_length);
-	set_ip_header(&ip_header, size, interface_ip, dest_addr);
+	struct in_addr ip_addr;
+    ip_addr.s_addr = source_ip;
+    printf("Interface IP address: %s\n", inet_ntoa(ip_addr));
+	set_ip_header(&ip_header, size, source_ip, dest_addr);
 
 	unsigned char dest_mac[ETHER_ADDR_LEN] = {0};
 	size = size + sizeof(mac_header);
 	/* Destination MAC - address */
-	get_dest_mac(argv[1], &dest_addr, dest_mac);
-	log_info("Destination MAC: %02X:%02X:%02X:%02X:%02X:%02X",
-			dest_mac[0],
-			dest_mac[1],
-			dest_mac[2],
-			dest_mac[3],
-			dest_mac[4],
-			dest_mac[5]);
+	get_dest_mac(argv[1], &dest_addr, dest_mac);	
 	memmove(mac_header.ether_dhost, dest_mac, ETHER_ADDR_LEN);
 	/* Source interface MAC - address */
 	get_hwadrr(raw_sockfd, mac_header.ether_shost);
 	mac_header.ether_type = htons(ETHERTYPE_IP);
-
-	/* Вызываем bind для связывания */
-	/* if (bind(raw_sockfd, (struct sockaddr *)&server_ll_addr, sizeof(server_ll_addr)) < 0) 
-		handle_error("error on binding"); */
 
 	char *p = sending_buf;
 	memmove(p, &mac_header, sizeof(mac_header));
